@@ -1,0 +1,71 @@
+/* RESET */
+@import url('reset.css');
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto/Roboto-Regular.woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('fonts/Roboto/Roboto-Regular.woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+/* _____________________________________ */
+html {
+    height: 100%;
+    font-size: 18px;
+    
+    
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    height: 100%;
+}
+
+.container {
+    min-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: grey;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.subtitle {
+    font-size: 24px;
+    font-weight: 700;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+}
+
+/* --------------------------------- */
+
+.section_convert {
+    display:flex;
+    justify-content: center;
+    flex-flow: row;
+    gap: 50px;
+}
+
+.form {
+    width: 500px;
+    margin: 0 auto;
+    background-color: rgb(226, 225, 225);
+    border-radius: 10px;
+}
+
+
