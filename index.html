@@ -11,47 +11,107 @@
    <h1 class="title">Currency Converter</h1>
    <main class="container">
       <div class="section_convert">
+         <h2 class="subtitle">Convert an Amount of Money</h2>
+         <form class="form p-4">
+            <div class="d-flex flex-row justify-content-center align-items-center gap-3">
+               <div class="form-group pb-3 w-50">
+                  <label for="convert-currency_from" class="form-label">From:</label>
+                  <input class="form-control" list="datalistOptions_convert_from" id="convert-currency_from" placeholder="Type to search...">
+                  <datalist class="currency_from select_currency_from" id="datalistOptions_convert_from"></datalist>
+               </div>
+               <div class="form-group pb-3 w-50">
+                  <label for="convert-currency_to" class="form-label">To:</label>
+                  <input class="form-control" list="datalistOptions_convert_to" id="convert-currency_to" placeholder="Type to search...">
+                  <datalist class="currency_to select_currency_to" id="datalistOptions_convert_to"></datalist>
+               </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-center align-items-center gap-3">
+               <div class="form-group pb-3 w-50">
+                  <label for="amount">Amount:</label>
+                  <input class="form-control formConvert--js" id="amount" type="number" step="0.00001" name="amount" placeholder="1.00" required>
+               </div>
+               <div class="form-group pb-3 w-50">
+                  <label for="result">Result:</label>
+                  <p class="form-control" id="result">0</p>
+               </div> 
+            </div>
+         </form>
+      </div>
+
+
+      
+      <div class="section_search">
+         <h2 class="subtitle">Search rates</h2>
+         <form class="form p-4 formSearchRate--js">
+            <div class="d-flex flex-row justify-content-center align-items-center gap-3">
+               <div class="form-group pb-3 w-50">
+                  <label for="search-currency_from">From:</label>
+                  <input class="form-control" id="search-currency_from" type="text" placeholder="Enter base currency" required>
+               </div>
+               <div class="form-group pb-3 w-50">
+                  <label for="search-currency_to">To:</label>
+                  <input class="form-control" id="search-currency_to" type="text" placeholder="Enter target currency" required>
+               </div>
+            </div>
+            <button type="submit" class="btn btn-primary mb-3">Search Rate</button>
+            <div class="form-group pb-3">
+               <p class="form-control" id="search-result">Search result here ...</p>
+            </div>
+         </form>
+      </div>
+
+      <div class="section_rates_table">
+         <h2 class="subtitle">Exchange Rates Table</h2>
+         <table class="table table-striped">
+            <caption>Exchange Rates Table</caption>
+            <thead class="thead-light">
+              <tr class="table-col-currency">
+                <th scope="col">FROM \ TO</th>
+              </tr>
+            </thead>
+            <tbody class="table-row-currency">
+            </tbody>
+          </table>
+      </div>
+
+      <div class="section_create_rate">
          <div>
-            <h2 class="subtitle">Insert a new currency rate and add a new rate</h2>
-            <form class="form p-4 formRate--js">
+            <h2 class="subtitle">Insert a new currency rate</h2>
+            <form class="form p-4 formRate--js">            
                <div class="form-group pb-3">
                   <label for="currency_from">From:</label>
-                  <input class="form-control" id="currency_from" type="text" name="currency_from" placeholder="EUR" required>
+                  <input class="form-control currencyName_from" id="currency_from" type="text" name="currency_from" placeholder="EUR" required>
                </div>
                <div class="form-group pb-3">
                   <label for="currency_to">To:</label>
-                  <input class="form-control" id="currency_to" type="text" name="currency_to" placeholder="USD" required>
+                  <input class="form-control currencyName_to" id="currency_to" type="text" name="currency_to" placeholder="USD" required>
                </div>
                <div class="form-group pb-3">
-                  <label>Date:</label>
-                  <input class="form-control" id="currency_date" type="date" name="currency_date" placeholder="00.00.0000" required>
-               </div>
-               <div class="form-group pb-3">
-                  <label>Rate:</label>
-                  <input class="form-control" id="currency_rate" type="text" name="currency_rate" placeholder="1.00000" required>
+                  <label for="currency_rate">Rate:</label>
+                  <input class="form-control" id="currency_rate" type="number" step="0.00001" name="currency_rate" placeholder="1.00000" required>
                </div>
                <button type="submit" class="btn btn-primary">Add a rate</button> 
             </form>
          </div>
+
          <div>
-            <h2 class="subtitle">Convert an Amount of Money</h2>
-         <form class="form formConvert--js p-4">
-            <div class="form-group pb-3">
-               <label for="amount">Amount:</label>
-               <input class="form-control" id="amount" type="text" name="amount" placeholder="1.00" required>
-            </div>
-            <div class="form-group pb-3">
-               <label for="convert-currency_from">From:</label>
-               <input class="form-control" id="convert-currency_from" type="text" name="convert-currency_from" placeholder="EUR" required>
-            </div>
-            <div class="form-group pb-3">
-               <label for="convert-currency_to">To:</label>
-               <input class="form-control" id="convert-currency_to" type="text" name="convert-currency_to" placeholder="USD" required>
-            </div>
-            <button type="submit" class="btn btn-primary mb-3">Convert</button>
-            <p>Result:</p>
-            <p class="form-control pb-4" id="result"></p>
-         </form>
+            <h2 class="subtitle">Add a new rate to the existing currency conversion</h2>
+            <form class="form p-4 formUpdateRate--js">
+               <div class="form-group pb-3">
+                  <label for="update-currency_from">From:</label>
+                  <select class="form-select select_currency_from" id="update-currency_from"></select>
+               </div>
+               <div class="form-group pb-3">
+                  <label for="update-currency_to">To:</label>
+                  <select class="form-select select_currency_to" id="update-currency_to"></select>
+               </div>
+               <div class="form-group pb-3">
+                  <label>New Rate:</label>
+                  <input class="form-control" id="update-currency_rate" type="number" step="0.00001" name="currency_rate" placeholder="1.00000" required>
+               </div>
+               <button type="submit" class="btn btn-primary">Add a new rate</button> 
+            </form>
          </div>
       </div>
    </main>

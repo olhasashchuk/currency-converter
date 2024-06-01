@@ -54,11 +54,12 @@ body {
 
 /* --------------------------------- */
 
-.section_convert {
+.section_create_rate {
     display:flex;
     justify-content: center;
     flex-flow: row;
     gap: 50px;
+    margin: 30px 0;
 }
 
 .form {
@@ -66,6 +67,18 @@ body {
     margin: 0 auto;
     background-color: rgb(226, 225, 225);
     border-radius: 10px;
+}
+
+.convert-from-dropdown_hidden--js {
+    display: none;
+}
+
+.convert-from-item_visible {
+    display: block;
+}
+
+.convert-from-item_hidden {
+    display: none;
 }
 
 
