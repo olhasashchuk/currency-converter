@@ -81,4 +81,11 @@ body {
     display: none;
 }
 
+.currencyName_from, .currencyName_to {
+    text-transform: uppercase;
+}
+
+#convert-currency_from, #convert-currency_to, #search-currency_from,#search-currency_to {
+    text-transform: uppercase;
+}
 
