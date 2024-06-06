@@ -235,25 +235,36 @@ function updateRate() {
    let existingRate = arrRates.find(rateObj => rateObj.base === updateCurrencyFrom);
    if (existingRate) {
       existingRate.rates[updateCurrencyTo] = newRate;
-      addDataColTableCurrency(updateCurrencyFrom, updateCurrencyTo, newRate);
    }
+   addDataColTableCurrency(updateCurrencyFrom, updateCurrencyTo, newRate);
 }
 
 // Function to convert currency
 function getConvert() {
-   const amount = parseFloat(document.getElementById('amount').value);
+   const amount = document.getElementById('amount').value;
    const convertCurrencyFrom = document.getElementById('convert-currency_from').value;
    const convertCurrencyTo = document.getElementById('convert-currency_to').value;
 
    let existingRate = arrRates.find(rateObj => rateObj.base === convertCurrencyFrom);
    if (existingRate) {
       const rate = existingRate.rates[convertCurrencyTo];
+      if (rate) {
       const convertedAmount = amount * rate;
-      if (convertedAmount !== null) {
-         document.getElementById("result").innerHTML = convertedAmount.toFixed(5);
+         if (convertedAmount !== null) {
+            document.getElementById("result").innerText = convertedAmount.toFixed(5);
+         }
+      } else {
+         alert ("This currency is not available");
       }
+   } else {
+      alert ("This currency is not available");
+   }
+
+   if (!amount) {
+      document.getElementById("result").innerText = 0;
    }
 }
+
 
 // Function to search currency
 function searchRate() {
