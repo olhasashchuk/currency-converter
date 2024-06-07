@@ -1,3 +1,12 @@
+//timeout to show an announcement when the market works
+window.addEventListener('DOMContentLoaded', () => {
+   setTimeout (() => {
+      alert('The market opens at 9am and closes at 5pm local time.')
+   }, 2000)
+})
+
+const hottestCurrency = 'EUR';
+
 // Exchange rates array
 const arrRates = [
    {
@@ -234,7 +243,8 @@ function updateRate() {
 
    let existingRate = arrRates.find(rateObj => rateObj.base === updateCurrencyFrom);
    if (existingRate) {
-      existingRate.rates[updateCurrencyTo] = newRate;
+      existingRate.newRates = { ...existingRate.newRates, [updateCurrencyTo]: newRate };
+
    }
    addDataColTableCurrency(updateCurrencyFrom, updateCurrencyTo, newRate);
 }
@@ -245,14 +255,22 @@ function getConvert() {
    const convertCurrencyFrom = document.getElementById('convert-currency_from').value;
    const convertCurrencyTo = document.getElementById('convert-currency_to').value;
 
+   if (isNaN(amount) || amount <= 0) {
+      document.getElementById("result").innerText = 0;
+      return;
+   }
+
    let existingRate = arrRates.find(rateObj => rateObj.base === convertCurrencyFrom);
+   const newRate = existingRate.newRates ? existingRate.newRates[convertCurrencyTo] : null;
+   const rate = existingRate.rates ? existingRate.rates[convertCurrencyTo] : null;
+   
    if (existingRate) {
-      const rate = existingRate.rates[convertCurrencyTo];
-      if (rate) {
-      const convertedAmount = amount * rate;
-         if (convertedAmount !== null) {
-            document.getElementById("result").innerText = convertedAmount.toFixed(5);
-         }
+      if (newRate) {
+         const convertedAmount = amount * newRate;
+         document.getElementById("result").innerText = convertedAmount.toFixed(5);
+      } else if (rate){
+         const convertedAmount = amount * rate;
+         document.getElementById("result").innerText = convertedAmount.toFixed(5);
       } else {
          alert ("This currency is not available");
       }
@@ -260,9 +278,7 @@ function getConvert() {
       alert ("This currency is not available");
    }
 
-   if (!amount) {
-      document.getElementById("result").innerText = 0;
-   }
+   checkRate (newRate, rate, convertCurrencyFrom, convertCurrencyTo, hottestCurrency)
 }
 
 
@@ -272,9 +288,12 @@ function searchRate() {
    const searchCurrencyTo = document.getElementById('search-currency_to').value.toUpperCase();
 
    let existingRate = arrRates.find(rateObj => rateObj.base === searchCurrencyFrom);
+   const newRate = existingRate.newRates ? existingRate.newRates[searchCurrencyTo] : null;
+   const rate = existingRate.rates ? existingRate.rates[searchCurrencyTo] : null;
    if (existingRate) {
-      const rate = existingRate.rates[searchCurrencyTo];
-      if (rate) {
+      if (newRate) {
+         document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is ${newRate.toFixed(5)}.`;
+      } else if (rate){
          document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is ${rate.toFixed(5)}.`;
       } else {
          document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is not available.`;
@@ -282,4 +301,23 @@ function searchRate() {
    } else {
       document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} is not available.`;
    }
+
+   checkRate (newRate, rate, searchCurrencyFrom, searchCurrencyTo, hottestCurrency)
+}
+
+// function watcher to periodically check a specific currency conversion
+function checkRate (newRate, rate, currencyFrom, currencyTo, hottestCurrency) {
+   setTimeout (() => {
+      if (newRate <= rate * 0.7) {
+         alert(`You are interested in converting ${currencyFrom} to ${currencyTo} but the rate today is very bad, 1 ${currencyFrom} is ${newRate.toFixed(5)} ${currencyTo}`)
+      } 
+      if (newRate >= rate * 1.2 && !(newRate === rate*2)) {
+         alert(`Exchange rate from ${currencyFrom} to ${currencyTo} is ${newRate.toFixed(5)}. You can convert with maximum gain`)
+      }
+      if (currencyTo === hottestCurrency) {
+         if(newRate === rate*2){         
+            alert(`Exchange rate from ${currencyFrom} to ${currencyTo} is ${newRate.toFixed(5)}. Currency conversion reaching the double value`)
+         }
+      }
+   }, 2000)
 }
