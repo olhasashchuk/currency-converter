@@ -1,9 +1,9 @@
 //timeout to show an announcement when the market works
-window.addEventListener('DOMContentLoaded', () => {
-   setTimeout (() => {
-      alert('The market opens at 9am and closes at 5pm local time.')
-   }, 2000)
-})
+// window.addEventListener('DOMContentLoaded', () => {
+//    setTimeout (() => {
+//       alert('The market opens at 9am and closes at 5pm local time.')
+//    }, 2000)
+// })
 
 const hottestCurrency = 'EUR';
 
@@ -124,6 +124,8 @@ function handleFormSubmissions() {
       getConvert();
    });
 
+   document.querySelector('.btn-switch-currency').addEventListener('click', switchValueCurrency)
+
    document.querySelector('.formSearchRate--js').addEventListener('submit', function(event) {
       event.preventDefault();
       searchRate();
@@ -163,7 +165,6 @@ function addDataRowTableCurrency(dataRow) {
       for (let i = 0; i < numCols - 1; i++) { // -1 because first column is the row header
          newRow.appendChild(document.createElement("td"));
       }
-
       tableCurrencyRow.appendChild(newRow);
    }
 }
@@ -195,21 +196,20 @@ function addDataColTableCurrency(dataRow, dataCol, rate) {
       const colIndex = Array.from(tableCurrencyCol.querySelectorAll("th")).findIndex(header => header.innerText === dataCol);
       if (colIndex > -1) {
          let cell = existingRow.querySelectorAll("td")[colIndex - 1]; // -1 because row header is the first element
-         cell.innerText = rate;
+         cell.innerText = rate.toFixed(5);
       }
    }
 }
 
 // Function to add a new currency rate
 function addRate() {
-   const currencyFrom = document.querySelector('.currencyName_from').value.toUpperCase().trim();
-   const currencyTo = document.querySelector('.currencyName_to').value.toUpperCase().trim();
-   const rate = document.getElementById('currency_rate').value;
-
+   const currencyFrom = document.querySelector('.currency-from').value.toUpperCase().trim();
+   const currencyTo = document.querySelector('.currency-to').value.toUpperCase().trim();
+   const rate = parseFloat(document.getElementById('currency_rate').value);
    const existingRate = arrRates.find(ratesObj => ratesObj.base === currencyFrom);
 
    if (existingRate) {
-      if (existingRate.rates[currencyTo] !== undefined) {
+      if (existingRate.rates[currencyTo]) {
          alert(`This currency conversion rate already exists`);
       } else {
          existingRate.rates[currencyTo] = rate;
@@ -248,34 +248,47 @@ function updateRate() {
 
 // Function to convert currency
 function getConvert() {
-   const amount = document.getElementById('amount').value;
-   const convertCurrencyFrom = document.getElementById('convert-currency_from').value;
-   const convertCurrencyTo = document.getElementById('convert-currency_to').value;
-
+   const amount = parseFloat(document.querySelector('#amount').value);
+   const convertCurrencyFrom = document.querySelector('#convert-currency_from').value;
+   const convertCurrencyTo = document.querySelector('#convert-currency_to').value;
+   
    if (isNaN(amount) || amount <= 0) {
-      document.getElementById("result").innerText = 0;
+      document.querySelector("#result").innerText = 0;
       return;
    }
 
-   let existingRate = arrRates.find(rateObj => rateObj.base === convertCurrencyFrom);
+   const existingRate = arrRates.find(rateObj => rateObj.base === convertCurrencyFrom);
+   if (!existingRate) {
+      alert ("This currency is not available")
+      return
+   }
+
    const newRate = existingRate.newRates ? existingRate.newRates[convertCurrencyTo] : null;
    const rate = existingRate.rates ? existingRate.rates[convertCurrencyTo] : null;
-   
+
    if (existingRate) {
-      if (newRate) {
-         const convertedAmount = amount * newRate;
-         document.getElementById("result").innerText = convertedAmount.toFixed(5);
-      } else if (rate){
-         const convertedAmount = amount * rate;
-         document.getElementById("result").innerText = convertedAmount.toFixed(5);
+      if (newRate || rate ) {
+         const finalRate = newRate || rate;
+         const convertedAmount = amount * finalRate;
+         document.querySelector("#result").innerText = convertedAmount.toFixed(5);
       } else {
          alert ("This currency is not available");
       }
-   } else {
-      alert ("This currency is not available");
-   }
-
+   } 
+   
    checkRate (newRate, rate, convertCurrencyFrom, convertCurrencyTo, hottestCurrency)
+}
+
+
+
+function switchValueCurrency () {
+   const convertCurrencyFrom = document.querySelector('#convert-currency_from').value;
+   const convertCurrencyTo = document.querySelector('#convert-currency_to').value;
+   
+   if(convertCurrencyFrom && convertCurrencyTo) {
+      document.querySelector('#convert-currency_from').value = convertCurrencyTo;
+      document.querySelector('#convert-currency_to').value = convertCurrencyFrom;
+   }
 }
 
 
@@ -284,20 +297,24 @@ function searchRate() {
    const searchCurrencyFrom = document.getElementById('search-currency_from').value.toUpperCase();
    const searchCurrencyTo = document.getElementById('search-currency_to').value.toUpperCase();
 
-   let existingRate = arrRates.find(rateObj => rateObj.base === searchCurrencyFrom);
+   const existingRate = arrRates.find(rateObj => rateObj.base === searchCurrencyFrom);
+   
+   if (!existingRate) {
+      document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} is not available.`;
+      return
+   }
+
    const newRate = existingRate.newRates ? existingRate.newRates[searchCurrencyTo] : null;
    const rate = existingRate.rates ? existingRate.rates[searchCurrencyTo] : null;
+   
    if (existingRate) {
-      if (newRate) {
-         document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is ${newRate.toFixed(5)}.`;
-      } else if (rate){
-         document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is ${rate.toFixed(5)}.`;
+      if (newRate || rate) {
+         const finalRate = newRate || rate;
+         document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is ${finalRate.toFixed(5)}.`;
       } else {
          document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} to ${searchCurrencyTo} is not available.`;
       }
-   } else {
-      document.getElementById('search-result').innerText = `Exchange rate from ${searchCurrencyFrom} is not available.`;
-   }
+   } 
 
    checkRate (newRate, rate, searchCurrencyFrom, searchCurrencyTo, hottestCurrency)
 }
