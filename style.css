@@ -1,7 +1,7 @@
 /* RESET */
 @import url('reset.css');
 
-@font-face {
+/* @font-face {
     font-family: 'Roboto';
     src: url('fonts/Roboto/Roboto-Regular.woff2');
     font-weight: 400;
@@ -13,13 +13,11 @@
     src: url('fonts/Roboto/Roboto-Regular.woff2');
     font-weight: 700;
     font-display: swap;
-}
+} */
 /* _____________________________________ */
 html {
     height: 100%;
-    font-size: 18px;
-    
-    
+    font-size: 18px;   
 }
 
 body {
@@ -34,32 +32,15 @@ body {
     min-width: 1000px;
     margin: 0 auto;
     padding: 30px;
-    background-color: grey;
 }
 
-.title {
-    font-size: 32px;
-    font-weight: 700;
-    text-align: center;
-    margin: 50px 0;
-}
 
-.subtitle {
-    font-size: 24px;
-    font-weight: 700;
-    padding: 20px 0;
-    text-align: center;
-    color: white;
-}
+
+
 
 /* --------------------------------- */
-
-.section_create_rate {
-    display:flex;
-    justify-content: center;
-    flex-flow: row;
-    gap: 50px;
-    margin: 30px 0;
+.mobile-menu {
+    display: none;
 }
 
 .form {
@@ -81,11 +62,26 @@ body {
     display: none;
 }
 
-.currencyName_from, .currencyName_to {
-    text-transform: uppercase;
+table thead th, table tbody td, table tbody th {
+    border: 1px solid rgba(128, 128, 128, 0.149); /* Corresponds to border-slate-600 in Tailwind CSS */
+    padding-top: 0.5rem; /* Corresponds to py-2 in Tailwind CSS */
+    padding-bottom: 0.5rem; /* Corresponds to py-2 in Tailwind CSS */
+    padding-left: 0.5rem; /* Corresponds to pl-2 in Tailwind CSS */
+ }
+
+ table thead th, table tbody th {
+   font-weight: 500;
+ }
+
+table tr:nth-child(odd) {
+ background-color: white;
 }
 
-#convert-currency_from, #convert-currency_to, #search-currency_from,#search-currency_to {
-    text-transform: uppercase;
+table tr:nth-child(even) {
+ background-color: #e2e8f0; /* This is the hexadecimal color for slate-200 */
 }
+
+
+
+
 
