@@ -1,17 +1,23 @@
 document.addEventListener("DOMContentLoaded", getData);
 
+const KEY = 'currencyData'
+
 async function getData() {
   try {
       const res = await fetch(
           "https://raw.githubusercontent.com/olhasashchuk/olhasashchuk.github.io/main/data/currency.json"
         )
       const data = await res.json();
+      const dataJSON = JSON.stringify(data);
+      localStorage.setItem(KEY, dataJSON);
       createTable(data);
       createRates(data);
   } catch (error) {
       console.log(error);
   }
 }
+
+
 
 
 // Function to create table headers
@@ -103,3 +109,5 @@ function createRates(dataRates) {
   );
   populateSelectElements(dataRates, selectCurrencyTo, addedCurrenciesTo, false);
 }
+
+
