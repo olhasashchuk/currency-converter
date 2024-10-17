@@ -1,3 +1,8 @@
+document.addEventListener("DOMContentLoaded", function () {
+  handleButtonClick();
+  changeMode();
+});
+
 function handleButtonClick() {
   const mobileMenu = document.querySelector('.mobile-menu');
   const subMenu = document.querySelector('.sub-menu');
@@ -34,13 +39,9 @@ function handleButtonClick() {
   })
 }
 
-handleButtonClick();
-
 function changeMode() {
   const themeToggleDarkIcon = document.querySelector("#theme-toggle-dark-icon");
-  console.log(themeToggleDarkIcon)
   const themeToggleLightIcon = document.querySelector("#theme-toggle-light-icon");
-  console.log(themeToggleLightIcon)
   // Change the icons inside the button based on previous settings
   if (
       localStorage.getItem("color-theme") === "dark" ||
@@ -53,7 +54,6 @@ function changeMode() {
   }
 
   const themeToggleBtn = document.querySelector('#theme-toggle');
-  console.log(themeToggleBtn)
 
   themeToggleBtn.addEventListener("click", function () {
     // toggle icons inside button
@@ -83,7 +83,6 @@ function changeMode() {
   });
 }
 
-changeMode()
 
 
 
